@@ -969,6 +969,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     --ocean-deep:#3E5860;
 
     --burgundy:#7C3E3F;
+    --gold:#E8A87C;
 
     --white:#FFFDF9;
 
@@ -1063,7 +1064,7 @@ img{
 
     grid-template-columns:
         minmax(360px, .92fr)
-        minmax(520px, 1.08fr);
+        minmax(560px, 1.08fr);
 }
 
 
@@ -1094,13 +1095,12 @@ img{
 
     padding:
         38px
-        clamp(28px,4vw,64px);
+        clamp(28px,4vw,64px)
+        44px;
 
     display:flex;
 
     flex-direction:column;
-
-    justify-content:space-between;
 }
 
 .apply-visual::before{
@@ -1114,8 +1114,8 @@ img{
     background:
         linear-gradient(
             180deg,
-            rgba(53,42,34,.15),
-            rgba(53,42,34,.72)
+            rgba(53,42,34,.2),
+            rgba(53,42,34,.78)
         );
 
     z-index:1;
@@ -1192,6 +1192,8 @@ img{
     align-items:center;
 
     gap:20px;
+
+    margin-bottom:auto;
 }
 
 .visual-logo{
@@ -1199,15 +1201,58 @@ img{
     display:inline-flex;
 
     align-items:center;
+
+    gap:11px;
+
+    padding:9px 15px 9px 9px;
+
+    background:rgba(255,253,249,.1);
+
+    border:1px solid rgba(255,253,249,.24);
+
+    backdrop-filter:blur(6px);
 }
 
 .visual-logo img{
 
-    height:34px;
+    height:30px;
 
     width:auto;
 
     display:block;
+
+    filter:brightness(0) invert(1);
+}
+
+.visual-logo-text{
+
+    display:flex;
+
+    flex-direction:column;
+
+    line-height:1.15;
+}
+
+.visual-logo-text strong{
+
+    font-family:'Fraunces',serif;
+
+    font-size:.86rem;
+
+    letter-spacing:.03em;
+
+    color:var(--white);
+}
+
+.visual-logo-text span{
+
+    font-size:.54rem;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
+
+    color:rgba(255,253,249,.65);
 }
 
 .visual-mute{
@@ -1293,72 +1338,58 @@ img{
 
 
 /* ==========================================================================
-   VISUAL CONTENT
+   VISUAL CONTENT — eyebrow + tags grouped up top, title/copy below,
+   note pinned as a boxed card at the very bottom.
    ========================================================================== */
 
 .visual-content{
 
-    max-width:570px;
+    max-width:560px;
+}
 
-    margin-top:auto;
+.visual-top-row{
 
-    padding-top:70px;
+    display:flex;
 
-    padding-bottom:22px;
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:14px 10px;
+
+    margin-bottom:24px;
 }
 
 .visual-eyebrow{
 
-    display:inline-block;
+    display:inline-flex;
 
-    font-size:.67rem;
+    align-items:center;
 
-    letter-spacing:.22em;
+    gap:10px;
+
+    font-size:.66rem;
+
+    letter-spacing:.2em;
 
     text-transform:uppercase;
 
     font-weight:700;
 
-    color:#F3E4C9;
-
-    margin-bottom:20px;
+    color:var(--gold);
 }
 
-.visual-title{
+.visual-eyebrow::before{
 
-    font-size:
-        clamp(
-            3.1rem,
-            6vw,
-            5.8rem
-        );
+    content:"";
 
-    line-height:.96;
+    width:20px;
 
-    color:var(--white);
+    height:1px;
 
-    margin:0 0 25px;
-}
+    background:currentColor;
 
-.visual-title em{
-
-    font-style:italic;
-
-    color:#F3E4C9;
-}
-
-.visual-copy{
-
-    max-width:510px;
-
-    font-size:.96rem;
-
-    line-height:1.85;
-
-    color:
-        rgba(255,253,249,.86);
-
-    margin:0 0 28px;
+    opacity:.75;
 }
 
 .visual-tags{
@@ -1368,8 +1399,6 @@ img{
     flex-wrap:wrap;
 
     gap:8px;
-
-    margin-bottom:35px;
 }
 
 .visual-tags span{
@@ -1378,11 +1407,13 @@ img{
         1px solid
         rgba(255,253,249,.32);
 
-    padding:7px 12px;
+    background:rgba(255,253,249,.06);
 
-    font-size:.62rem;
+    padding:6px 12px;
 
-    letter-spacing:.1em;
+    font-size:.6rem;
+
+    letter-spacing:.09em;
 
     text-transform:uppercase;
 
@@ -1390,38 +1421,121 @@ img{
         rgba(255,253,249,.9);
 }
 
-.visual-note{
+.visual-title{
 
-    border-left:
-        2px solid
-        #E8A87C;
+    font-size:
+        clamp(
+            2.7rem,
+            5.2vw,
+            4.6rem
+        );
 
-    padding-left:17px;
+    line-height:1.02;
 
-    max-width:500px;
+    color:var(--white);
+
+    margin:0 0 22px;
 }
 
-.visual-note strong{
+.visual-title em{
+
+    font-style:italic;
+
+    color:var(--gold);
+}
+
+.visual-copy{
+
+    max-width:470px;
+
+    font-size:.95rem;
+
+    line-height:1.85;
+
+    color:
+        rgba(255,253,249,.86);
+
+    margin:0;
+}
+
+
+/* ---------- note: boxed card, pinned to bottom of panel ---------- */
+
+.visual-note{
+
+    margin-top:auto;
+
+    padding-top:34px;
+}
+
+.visual-note-card{
+
+    background:rgba(255,253,249,.08);
+
+    border:1px solid rgba(255,253,249,.2);
+
+    border-radius:4px;
+
+    backdrop-filter:blur(6px);
+
+    padding:20px 22px;
+
+    max-width:500px;
+
+    display:flex;
+
+    gap:16px;
+
+    align-items:flex-start;
+}
+
+.visual-note-icon{
+
+    flex:0 0 34px;
+
+    width:34px;
+
+    height:34px;
+
+    border-radius:50%;
+
+    background:rgba(232,168,124,.16);
+
+    border:1px solid rgba(232,168,124,.5);
+
+    display:grid;
+
+    place-items:center;
+
+    color:var(--gold);
+}
+
+.visual-note-icon svg{
+    width:15px;
+    height:15px;
+}
+
+.visual-note-card strong{
 
     display:block;
 
-    font-size:.68rem;
+    font-size:.67rem;
 
-    letter-spacing:.13em;
+    letter-spacing:.12em;
 
     text-transform:uppercase;
 
-    margin-bottom:5px;
+    margin-bottom:6px;
 
-    color:#F3E4C9;
+    color:var(--gold);
 }
 
-.visual-note p{
+.visual-note-card p{
 
     margin:0;
 
     color:
-        rgba(255,253,249,.78);
+        rgba(255,253,249,.82);
 
     font-size:.8rem;
 
@@ -1443,13 +1557,17 @@ img{
         62px
         clamp(28px,5vw,78px)
         80px;
+
+    display:flex;
+
+    justify-content:center;
 }
 
 .form-shell{
 
     width:100%;
 
-    max-width:720px;
+    max-width:660px;
 
     margin:0 auto;
 }
@@ -1457,6 +1575,8 @@ img{
 .form-header{
 
     margin-bottom:32px;
+
+    text-align:center;
 }
 
 .form-eyebrow{
@@ -1492,7 +1612,7 @@ img{
 
 .form-header p{
 
-    max-width:570px;
+    max-width:520px;
 
     color:var(--espresso-70);
 
@@ -1500,7 +1620,7 @@ img{
 
     line-height:1.8;
 
-    margin:0;
+    margin:0 auto;
 }
 
 
@@ -1604,6 +1724,212 @@ img{
 }
 
 
+/* ---------- live status badge ---------- */
+
+.live-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    background:var(--espresso);
+
+    color:var(--white);
+
+    padding:8px 14px;
+
+    border-radius:20px;
+
+    font-size:.66rem;
+
+    letter-spacing:.08em;
+
+    text-transform:uppercase;
+
+    font-weight:700;
+
+    margin:0 auto 26px;
+}
+
+.live-dot{
+
+    width:7px;
+
+    height:7px;
+
+    border-radius:50%;
+
+    background:#7CC49A;
+
+    flex:0 0 7px;
+
+    position:relative;
+}
+
+.live-dot::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-4px;
+
+    border-radius:50%;
+
+    border:1px solid #7CC49A;
+
+    animation:livepulse 1.8s ease-out infinite;
+}
+
+@keyframes livepulse{
+
+    0%{
+        transform:scale(.5);
+        opacity:.9;
+    }
+
+    100%{
+        transform:scale(1.8);
+        opacity:0;
+    }
+}
+
+.live-badge b{
+
+    color:var(--gold);
+
+    font-weight:700;
+}
+
+
+/* ==========================================================================
+   PERKS — persuasive benefits strip shown before the form
+   ========================================================================== */
+
+.perks{
+
+    margin-bottom:30px;
+}
+
+.perks-head{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    text-align:center;
+
+    gap:4px;
+
+    margin-bottom:16px;
+}
+
+.perks-head h2{
+
+    font-size:1.25rem;
+
+    margin:0;
+}
+
+.perks-head span{
+
+    font-size:.66rem;
+
+    letter-spacing:.12em;
+
+    text-transform:uppercase;
+
+    font-weight:700;
+
+    color:var(--burgundy);
+
+    white-space:nowrap;
+}
+
+.perks-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:12px;
+}
+
+.perk-card{
+
+    background:var(--white);
+
+    border:1px solid var(--line);
+
+    border-radius:4px;
+
+    padding:16px 15px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    transition:border-color .2s, transform .2s;
+}
+
+.perk-card:hover{
+
+    border-color:var(--ocean);
+
+    transform:translateY(-2px);
+}
+
+.perk-icon{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    background:var(--sand);
+
+    color:var(--ocean-deep);
+
+    display:grid;
+
+    place-items:center;
+}
+
+.perk-icon svg{
+    width:15px;
+    height:15px;
+}
+
+.perk-card strong{
+
+    font-family:'Fraunces',serif;
+
+    font-weight:400;
+
+    font-size:.88rem;
+
+    color:var(--espresso);
+}
+
+.perk-card p{
+
+    margin:0;
+
+    font-size:.74rem;
+
+    line-height:1.55;
+
+    color:var(--espresso-70);
+}
+
+
 /* ==========================================================================
    NOTICE
    ========================================================================== */
@@ -1615,6 +1941,8 @@ img{
     border:
         1px solid
         var(--line-soft);
+
+    border-radius:3px;
 
     padding:17px 19px;
 
@@ -1633,93 +1961,7 @@ img{
 
 
 /* ==========================================================================
-   IMAGE STRIP
-   ========================================================================== */
-
-.image-strip{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:10px;
-
-    margin-bottom:30px;
-}
-
-.image-card{
-
-    position:relative;
-
-    aspect-ratio:3/4;
-
-    overflow:hidden;
-
-    background:
-        linear-gradient(
-            145deg,
-            var(--sand),
-            var(--ocean)
-        );
-}
-
-.image-card::after{
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    background:
-        linear-gradient(
-            180deg,
-            transparent 50%,
-            rgba(53,42,34,.5)
-        );
-}
-
-.image-card img{
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-
-    transition:
-        transform .8s var(--ease);
-}
-
-.image-card:hover img{
-    transform:scale(1.05);
-}
-
-.image-card span{
-
-    position:absolute;
-
-    left:12px;
-
-    bottom:11px;
-
-    z-index:2;
-
-    color:var(--white);
-
-    font-size:.58rem;
-
-    letter-spacing:.13em;
-
-    text-transform:uppercase;
-
-    font-weight:700;
-}
-
-
-/* ==========================================================================
-   FORM CARD
+   FORM CARD — redesigned field layout
    ========================================================================== */
 
 .form-card{
@@ -1730,17 +1972,19 @@ img{
         1px solid
         var(--line);
 
+    border-radius:4px;
+
     box-shadow:var(--shadow);
 
     padding:
-        clamp(22px,4vw,38px);
+        clamp(24px,4vw,42px);
 }
 
 .form-section{
 
-    margin-bottom:31px;
+    margin-bottom:34px;
 
-    padding-bottom:28px;
+    padding-bottom:30px;
 
     border-bottom:
         1px solid
@@ -1752,6 +1996,8 @@ img{
     border-bottom:none;
 
     padding-bottom:0;
+
+    margin-bottom:0;
 }
 
 .section-heading{
@@ -1760,14 +2006,39 @@ img{
 
     align-items:center;
 
-    gap:12px;
+    gap:14px;
 
-    margin-bottom:18px;
+    margin-bottom:22px;
 }
 
-.section-heading span{
+.section-num{
 
-    font-size:.62rem;
+    flex:0 0 26px;
+
+    width:26px;
+
+    height:26px;
+
+    border-radius:50%;
+
+    background:var(--espresso);
+
+    color:var(--white);
+
+    display:grid;
+
+    place-items:center;
+
+    font-size:.65rem;
+
+    font-weight:700;
+
+    font-family:'Fraunces',serif;
+}
+
+.section-heading span.section-label{
+
+    font-size:.66rem;
 
     letter-spacing:.16em;
 
@@ -1796,9 +2067,9 @@ img{
     grid-template-columns:
         repeat(2,minmax(0,1fr));
 
-    gap:16px;
+    gap:18px;
 
-    margin-bottom:16px;
+    margin-bottom:18px;
 }
 
 .form-row:last-child{
@@ -1812,6 +2083,28 @@ img{
     display:flex;
 
     flex-direction:column;
+
+    background:var(--ivory);
+
+    border:1px solid var(--line-soft);
+
+    border-radius:3px;
+
+    padding:12px 15px 13px;
+
+    transition:border-color .2s, background .2s;
+}
+
+.form-group:focus-within{
+
+    background:var(--white);
+
+    border-color:var(--ocean);
+}
+
+.form-group.is-invalid-group{
+
+    border-color:var(--error);
 }
 
 .form-group.full{
@@ -1820,15 +2113,22 @@ img{
 
 .form-group label{
 
-    font-size:.67rem;
+    font-size:.62rem;
 
-    letter-spacing:.05em;
+    letter-spacing:.09em;
+
+    text-transform:uppercase;
 
     font-weight:700;
 
-    margin-bottom:7px;
+    margin-bottom:5px;
 
-    color:var(--espresso);
+    color:var(--espresso-45);
+}
+
+.form-group:focus-within label{
+
+    color:var(--ocean-deep);
 }
 
 .apply-form input,
@@ -1837,44 +2137,34 @@ img{
 
     width:100%;
 
-    border:
-        1px solid
-        rgba(53,42,34,.18);
+    border:none;
 
-    background:
-        rgba(255,253,249,.6);
+    background:transparent;
 
     color:var(--espresso);
 
     border-radius:0;
 
-    min-height:50px;
+    min-height:26px;
 
-    padding:
-        0
-        14px;
+    padding:0;
 
-    font-size:.83rem;
+    font-size:.9rem;
 
-    transition:
-        border-color .2s,
-        box-shadow .2s,
-        background .2s;
+    transition:color .2s;
 
     outline:none;
 }
 
 .apply-form textarea{
 
-    min-height:118px;
-
-    padding:
-        13px
-        14px;
+    min-height:88px;
 
     resize:vertical;
 
     line-height:1.65;
+
+    padding-top:2px;
 }
 
 .apply-form select{
@@ -1888,42 +2178,23 @@ img{
         linear-gradient(135deg,var(--espresso) 50%,transparent 50%);
 
     background-position:
-        calc(100% - 17px) 21px,
-        calc(100% - 12px) 21px;
+        calc(100% - 4px) 10px,
+        calc(100% - 9px) 10px;
 
     background-size:
         5px 5px,
         5px 5px;
 
     background-repeat:no-repeat;
-}
 
-.apply-form input:hover,
-.apply-form select:hover,
-.apply-form textarea:hover{
-
-    border-color:
-        rgba(53,42,34,.35);
-}
-
-.apply-form input:focus,
-.apply-form select:focus,
-.apply-form textarea:focus{
-
-    background:var(--white);
-
-    border-color:var(--ocean);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(84,112,122,.12);
+    padding-right:18px;
 }
 
 .apply-form input::placeholder,
 .apply-form textarea::placeholder{
 
     color:
-        rgba(53,42,34,.38);
+        rgba(53,42,34,.32);
 }
 
 
@@ -1949,19 +2220,12 @@ img{
 }
 
 .apply-form .is-invalid{
-
-    border-color:
-        var(--error)!important;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(154,69,69,.08)!important;
+    color:var(--error);
 }
 
-.apply-form .is-valid{
+.form-group .field-error:not(:empty){
 
-    border-color:
-        rgba(62,88,96,.4);
+    margin-top:2px;
 }
 
 
@@ -2136,6 +2400,8 @@ img{
     border:
         1px solid
         var(--espresso);
+
+    border-radius:3px;
 
     background:var(--espresso);
 
@@ -2353,12 +2619,12 @@ img{
 
         height:auto;
 
-        min-height:620px;
+        min-height:560px;
 
         padding:
             28px
             clamp(22px,6vw,48px)
-            38px;
+            34px;
     }
 
     .apply-content{
@@ -2373,7 +2639,21 @@ img{
 
     .form-shell{
 
-        max-width:760px;
+        max-width:600px;
+    }
+
+    .perks-grid{
+
+        grid-template-columns:1fr 1fr;
+    }
+
+    .form-row{
+
+        grid-template-columns:1fr;
+
+        gap:14px;
+
+        margin-bottom:14px;
     }
 }
 
@@ -2381,16 +2661,16 @@ img{
 
     .apply-visual{
 
-        min-height:600px;
+        min-height:540px;
     }
 
     .visual-title{
 
         font-size:
             clamp(
-                3rem,
-                15vw,
-                4.3rem
+                2.4rem,
+                12vw,
+                3.4rem
             );
     }
 
@@ -2429,34 +2709,11 @@ img{
             7px;
     }
 
-    .form-row{
-
-        grid-template-columns:1fr;
-
-        gap:15px;
-
-        margin-bottom:15px;
-    }
-
     .form-card{
 
         padding:
-            22px
-            17px;
-    }
-
-    .image-strip{
-
-        gap:7px;
-    }
-
-    .image-card span{
-
-        left:8px;
-
-        bottom:8px;
-
-        font-size:.48rem;
+            20px
+            16px;
     }
 
     .visual-nav{
@@ -2492,7 +2749,11 @@ img{
 
     .visual-logo img{
 
-        height:28px;
+        height:26px;
+    }
+
+    .visual-logo-text{
+        display:none;
     }
 
     .visual-mute{
@@ -2504,6 +2765,63 @@ img{
         width:32px;
 
         height:32px;
+    }
+
+    .visual-note-card{
+
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .perks-grid{
+
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:440px){
+
+    .apply-visual{
+
+        min-height:420px;
+    }
+
+    .visual-tags span{
+
+        font-size:.56rem;
+
+        padding:5px 10px;
+    }
+
+    .perks-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .live-badge{
+
+        white-space:normal;
+
+        text-align:center;
+
+        padding:8px 12px;
+    }
+
+    .form-header p{
+
+        font-size:.84rem;
+    }
+
+    .perk-card{
+
+        flex-direction:row;
+
+        align-items:center;
+    }
+
+    .perk-icon{
+
+        flex:0 0 32px;
     }
 }
 
@@ -2641,6 +2959,10 @@ setTimeout(function(){
                 aria-label="Dear SEA Swimwear"
             >
                 <img src="data:image/png;base64,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" alt="Dear SEA">
+                <span class="visual-logo-text">
+                    <strong>Dear SEA</strong>
+                    <span>Swimwear</span>
+                </span>
             </a>
 
             <a
@@ -2678,9 +3000,29 @@ setTimeout(function(){
 
         <div class="visual-content">
 
-            <span class="visual-eyebrow">
-                Open Call · Summer Collective
-            </span>
+            <div class="visual-top-row">
+
+                <span class="visual-eyebrow">
+                    Open Call · Summer Collective
+                </span>
+
+                <div class="visual-tags">
+
+                    <span>
+                        Creator collaborations
+                    </span>
+
+                    <span>
+                        Product features
+                    </span>
+
+                    <span>
+                        Summer campaigns
+                    </span>
+
+                </div>
+
+            </div>
 
             <h1 class="visual-title">
 
@@ -2700,38 +3042,33 @@ setTimeout(function(){
 
             </p>
 
+        </div>
 
-            <div class="visual-tags">
 
-                <span>
-                    Creator collaborations
+        <!-- Closing note — boxed card, pinned to the bottom of the panel -->
+
+        <div class="visual-note">
+
+            <div class="visual-note-card">
+
+                <span class="visual-note-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4L12 2z" stroke-linejoin="round"/></svg>
                 </span>
 
                 <span>
-                    Product features
+                    <strong>
+                        What we're looking for
+                    </strong>
+
+                    <p>
+
+                        We care about your creative point of view,
+                        styling, content quality, and audience connection.
+                        You don't need to be the biggest creator in the room —
+                        we want people who genuinely fit the Dear SEA world.
+
+                    </p>
                 </span>
-
-                <span>
-                    Summer campaigns
-                </span>
-
-            </div>
-
-
-            <div class="visual-note">
-
-                <strong>
-                    What we're looking for
-                </strong>
-
-                <p>
-
-                    We care about your creative point of view,
-                    styling, content quality, and audience connection.
-                    You don't need to be the biggest creator in the room —
-                    we want people who genuinely fit the Dear SEA world.
-
-                </p>
 
             </div>
 
@@ -2763,13 +3100,23 @@ setTimeout(function(){
 
                 <p>
 
-                    Tell us a little about yourself, your content,
-                    and your creative style. Please provide active
-                    social links so our team can properly review
-                    your work.
+                    Join a growing roster of creators getting free
+                    product, paid campaigns, and real exposure — tell
+                    us a little about yourself, your content, and your
+                    creative style below. Takes about 3 minutes.
 
                 </p>
 
+            </div>
+
+
+            <!-- Live status badge -->
+
+            <div style="text-align:center;">
+                <span class="live-badge">
+                    <span class="live-dot"></span>
+                    You're on <b>Step 1 of 4</b> — Apply
+                </span>
             </div>
 
 
@@ -2837,72 +3184,65 @@ setTimeout(function(){
             </div>
 
 
+            <!-- Perks — what qualified creators get -->
+
+            <div class="perks">
+
+                <div class="perks-head">
+                    <h2>What you get once you're in</h2>
+                    <span>Real perks, not just exposure</span>
+                </div>
+
+                <div class="perks-grid">
+
+                    <div class="perk-card">
+                        <span class="perk-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7H4v13h16V7z"/><path d="M16 3H8l-2 4h12l-2-4z"/><path d="M12 11v6" stroke-linecap="round"/></svg>
+                        </span>
+                        <strong>Free product drops</strong>
+                        <p>Get first access to new releases before they launch to the public.</p>
+                    </div>
+
+                    <div class="perk-card">
+                        <span class="perk-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke-linecap="round"/></svg>
+                        </span>
+                        <strong>Paid opportunities</strong>
+                        <p>Qualified creators are prioritized for paid campaigns, not just gifting.</p>
+                    </div>
+
+                    <div class="perk-card">
+                        <span class="perk-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke-linecap="round"/></svg>
+                        </span>
+                        <strong>Real audience growth</strong>
+                        <p>Featured on our official pages, reaching thousands of new potential followers.</p>
+                    </div>
+
+                    <div class="perk-card">
+                        <span class="perk-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4L12 2z" stroke-linejoin="round"/></svg>
+                        </span>
+                        <strong>Long-term partnership</strong>
+                        <p>Consistent creators get first priority for ongoing seasonal collaborations.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
             <!-- Notice -->
 
             <div class="notice">
 
                 <strong>
-                    A note before you apply:
+                    Only takes 3 minutes to apply.
                 </strong>
 
-                We review applications on a rolling basis.
-                Selected creators may be contacted depending
-                on campaign needs, product availability, creative
-                direction, and overall brand fit.
-
-            </div>
-
-
-            <!-- Image strip -->
-
-            <div class="image-strip">
-
-                <div class="image-card">
-
-                    <img
-                        src="files/images/1.webp"
-                        alt="Dear SEA campaign"
-                        loading="lazy"
-                        onerror="this.remove()"
-                    >
-
-                    <span>
-                        Swim
-                    </span>
-
-                </div>
-
-
-                <div class="image-card">
-
-                    <img
-                        src="files/images/2.webp"
-                        alt="Dear SEA summer campaign"
-                        loading="lazy"
-                        onerror="this.remove()"
-                    >
-
-                    <span>
-                        Summer
-                    </span>
-
-                </div>
-
-
-                <div class="image-card">
-
-                    <img
-                        src="files/images/set/4.jpg"
-                        alt="Dear SEA creator campaign"
-                        loading="lazy"
-                        onerror="this.remove()"
-                    >
-
-                    <span>
-                        Create
-                    </span>
-
-                </div>
+                Fill out the form below — the more complete and
+                accurate your details, the faster our team can
+                review and get back to you.
 
             </div>
 
@@ -2964,7 +3304,8 @@ setTimeout(function(){
                     <div class="form-section">
 
                         <div class="section-heading">
-                            <span>
+                            <span class="section-num">1</span>
+                            <span class="section-label">
                                 About you
                             </span>
                         </div>
@@ -3078,7 +3419,8 @@ setTimeout(function(){
                     <div class="form-section">
 
                         <div class="section-heading">
-                            <span>
+                            <span class="section-num">2</span>
+                            <span class="section-label">
                                 Your creator profile
                             </span>
                         </div>
@@ -3350,7 +3692,8 @@ setTimeout(function(){
                     <div class="form-section">
 
                         <div class="section-heading">
-                            <span>
+                            <span class="section-num">3</span>
+                            <span class="section-label">
                                 Collaboration
                             </span>
                         </div>
@@ -3517,7 +3860,8 @@ setTimeout(function(){
                     <div class="form-section">
 
                         <div class="section-heading">
-                            <span>
+                            <span class="section-num">4</span>
+                            <span class="section-label">
                                 Before you submit
                             </span>
                         </div>
@@ -3997,6 +4341,10 @@ setTimeout(function(){
                 'is-invalid'
             );
 
+            group.classList.remove(
+                'is-invalid-group'
+            );
+
             if(
                 markValid &&
                 element.value.trim() !== ''
@@ -4019,6 +4367,10 @@ setTimeout(function(){
 
         element.classList.add(
             'is-invalid'
+        );
+
+        group.classList.add(
+            'is-invalid-group'
         );
 
         error.textContent =
