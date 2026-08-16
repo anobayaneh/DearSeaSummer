@@ -422,15 +422,100 @@
   .asap-copy p{font-size:1rem; line-height:1.75; color:var(--espresso-70); max-width:42ch; margin:0 0 28px;}
 
   /* =========================================================
-     LOCATIONS
+     LOCATIONS — HQ hub banner + mosaic of local touchpoints
   ========================================================= */
-  .locations{background:var(--sand);}
-  .loc-grid{display:grid; grid-template-columns:repeat(5,1fr); border-top:1px solid var(--line); border-left:1px solid var(--line); margin-top:10px;}
-  .loc-cell{padding:32px 22px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); position:relative; transition:background .3s;}
-  .loc-cell:hover{background:rgba(255,253,249,.55);}
-  .loc-num{font-size:.68rem; letter-spacing:.1em; color:var(--espresso-45); font-weight:700; display:block; margin-bottom:16px;}
-  .loc-cell h4{font-family:'Fraunces',serif; font-size:1.05rem; margin:0 0 8px; letter-spacing:.03em;}
-  .loc-cell p{font-size:.8rem; color:var(--espresso-70); margin:0; line-height:1.5;}
+  .locations{background:var(--sand); position:relative; overflow:hidden;}
+  .locations::before{
+    content:""; position:absolute; top:-120px; right:-120px; width:340px; height:340px;
+    border-radius:50%; background:radial-gradient(closest-side, rgba(84,112,122,.16), transparent 72%);
+    pointer-events:none;
+  }
+
+  .loc-hub{
+    position:relative; display:grid; grid-template-columns:1.1fr 1fr;
+    background:var(--espresso); color:var(--white); overflow:hidden;
+    box-shadow:var(--shadow); margin-bottom:16px;
+  }
+  .loc-hub::before{
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(70% 90% at 100% 0%, rgba(232,168,124,.14), transparent 60%),
+      repeating-linear-gradient(115deg, rgba(255,253,249,.045) 0 2px, transparent 2px 34px);
+    pointer-events:none;
+  }
+  .loc-hub-copy{position:relative; z-index:1; padding:clamp(30px,4vw,48px); display:flex; flex-direction:column; justify-content:center; gap:14px;}
+  .loc-hub-tag{
+    display:inline-flex; align-items:center; gap:8px; width:fit-content;
+    font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; font-weight:700;
+    color:#F3E4C9; border:1px solid rgba(255,253,249,.3); padding:6px 12px;
+  }
+  .loc-hub-tag svg{width:12px; height:12px;}
+  .loc-hub-copy h3{font-size:clamp(1.6rem,2.6vw,2.2rem); margin:0; color:var(--white);}
+  .loc-hub-copy p{margin:0; font-size:.86rem; line-height:1.7; color:rgba(255,253,249,.78); max-width:38ch;}
+  .loc-hub-stats{display:flex; gap:26px; margin-top:6px; flex-wrap:wrap;}
+  .loc-hub-stats div strong{display:block; font-family:'Fraunces',serif; font-size:1.5rem; color:var(--white);}
+  .loc-hub-stats div span{font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,253,249,.55);}
+  .loc-hub-visual{
+    position:relative; --ph1:#3E5860; --ph2:#7C3E3F; overflow:hidden;
+  }
+  .loc-hub-visual .photo{position:absolute; inset:0;}
+  .loc-hub-compass{
+    position:absolute; inset:0; width:100%; height:100%; z-index:1;
+    animation:compassspin 60s linear infinite;
+  }
+  @keyframes compassspin{ to{ transform:rotate(360deg); } }
+  .loc-hub-pin{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2;
+    width:64px; height:64px; border-radius:50%; background:rgba(255,253,249,.14);
+    border:1px solid rgba(255,253,249,.4); backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center; color:var(--white);
+  }
+  .loc-hub-pin svg{width:26px; height:26px;}
+  .loc-hub-pin::after{
+    content:""; position:absolute; inset:-14px; border-radius:50%; border:1px solid rgba(255,253,249,.35);
+    animation:hubping 2.4s ease-out infinite;
+  }
+  @keyframes hubping{ 0%{transform:scale(.6); opacity:.9;} 100%{transform:scale(1.9); opacity:0;} }
+
+  .loc-mosaic{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  .loc-card{
+    position:relative; background:var(--white); border:1px solid var(--line);
+    padding:24px 22px; display:flex; flex-direction:column; gap:14px;
+    transition:transform .35s var(--ease), border-color .35s, box-shadow .35s;
+  }
+  .loc-card:hover{transform:translateY(-4px); border-color:var(--ocean); box-shadow:0 20px 40px rgba(53,42,34,.1);}
+  .loc-card-top{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .loc-icon{
+    width:38px; height:38px; border-radius:50%; background:var(--sand); color:var(--ocean-deep);
+    display:flex; align-items:center; justify-content:center; flex:0 0 38px;
+    transition:background .3s, color .3s;
+  }
+  .loc-card:hover .loc-icon{background:var(--ocean-deep); color:var(--white);}
+  .loc-icon svg{width:17px; height:17px;}
+  .loc-idx{font-size:.62rem; letter-spacing:.1em; color:var(--espresso-45); font-weight:700;}
+  .loc-card h4{font-family:'Fraunces',serif; font-size:1.12rem; margin:0; letter-spacing:.02em;}
+  .loc-tagline{font-size:.74rem; font-style:italic; color:var(--burgundy); margin:0;}
+  .loc-status{
+    display:inline-flex; align-items:center; gap:6px; width:fit-content;
+    font-size:.66rem; letter-spacing:.03em; color:var(--espresso-70);
+    border-top:1px solid var(--line-soft); padding-top:12px; margin-top:auto; line-height:1.4;
+  }
+  .loc-status .dot{width:6px; height:6px; border-radius:50%; background:#5B8F6B; flex:0 0 auto;}
+
+  .loc-more{
+    text-align:center; margin:26px 0 0; font-size:.8rem; font-style:italic;
+    color:var(--espresso-70);
+  }
+
+  @media (max-width:980px){
+    .loc-hub{grid-template-columns:1fr;}
+    .loc-hub-visual{aspect-ratio:16/9;}
+    .loc-mosaic{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:560px){
+    .loc-mosaic{grid-template-columns:1fr;}
+    .loc-hub-stats{gap:18px;}
+  }
 
   /* =========================================================
      NEWSLETTER
@@ -459,6 +544,16 @@
   .tc-head .eyebrow{color:#E8A87C; opacity:1; display:inline-flex; align-items:center; gap:10px;}
   .tc-head .eyebrow::before, .tc-head .eyebrow::after{content:""; width:22px; height:1px; background:currentColor; opacity:.6;}
   .tc-head h2{color:var(--white); font-size:clamp(2rem,3.6vw,2.8rem); margin:16px 0 0;}
+  .tc-head p{max-width:46ch; margin:16px auto 0; color:rgba(255,253,249,.68); font-size:.92rem; line-height:1.75;}
+  .tc-cta{
+    display:inline-flex; align-items:center; gap:8px; margin-top:22px;
+    font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700;
+    color:var(--white); border-bottom:1px solid rgba(255,253,249,.4); padding-bottom:5px;
+    transition:border-color .3s, color .3s, gap .3s;
+  }
+  .tc-cta svg{width:13px; height:13px; transition:transform .3s var(--ease);}
+  .tc-cta:hover{color:#E8A87C; border-color:#E8A87C;}
+  .tc-cta:hover svg{transform:translate(2px,-2px);}
 
   .tc-slideshow{
     position:relative; display:flex; align-items:center; justify-content:center; gap:8px;
@@ -497,11 +592,12 @@
 
   .tc-frame-tag{
     position:absolute; left:14px; bottom:14px; z-index:3;
-    color:var(--white); font-size:.7rem; letter-spacing:.08em; font-weight:600;
-    display:flex; align-items:center; gap:6px; opacity:0; transition:opacity .4s var(--ease);
+    color:var(--white); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; font-weight:700;
+    display:flex; align-items:center; gap:7px; opacity:0; transition:opacity .4s var(--ease);
   }
   .tc-frame.is-active .tc-frame-tag{opacity:1;}
-  .dot-live{width:6px; height:6px; border-radius:50%; background:#E8A87C; box-shadow:0 0 0 3px rgba(232,168,124,.25); flex:0 0 auto;}
+  .dot-live{width:6px; height:6px; border-radius:50%; background:#E8A87C; box-shadow:0 0 0 3px rgba(232,168,124,.25); flex:0 0 auto; animation:dotpulse 1.6s ease-in-out infinite;}
+  @keyframes dotpulse{ 0%,100%{opacity:1;} 50%{opacity:.4;} }
 
   .tc-mute{
     position:absolute; top:14px; right:14px; z-index:4;
@@ -618,7 +714,6 @@
   @media (max-width: 1080px){
     .product-grid, .product-panel.active{grid-template-columns:repeat(2,1fr);}
     .cat-grid{grid-template-columns:repeat(2,1fr); gap:16px;}
-    .loc-grid{grid-template-columns:repeat(2,1fr);}
     .footer-cols{grid-template-columns:repeat(2,1fr); row-gap:40px;}
   }
   @media (max-width: 860px){
@@ -629,7 +724,6 @@
   }
   @media (max-width: 560px){
     section{padding:66px 0;}
-    .loc-grid{grid-template-columns:1fr 1fr;}
     .footer-bottom{flex-direction:column; align-items:flex-start;}
   }
 </style>
@@ -704,7 +798,7 @@
 </section>
 
 <!-- ============ FEATURE VIDEO 1: FABRIC ============ -->
-<section class="feature-video" id="fabric" data-video="files/video/play1.mp4">
+<section class="feature-video" id="fabric" data-video="files/video/play9.mp4">
   <div class="fv-grid">
     <div class="fv-media photo" style="--ph1:#E4D7C1; --ph2:#54707A;">
       <video muted loop playsinline preload="none"></video>
@@ -825,7 +919,7 @@
 </section>
 
 <!-- ============ FEATURE VIDEO 2: CRAFTSMANSHIP ============ -->
-<section class="feature-video flip" id="craft" data-video="files/video/play2.mp4">
+<section class="feature-video flip" id="craft" data-video="files/video/play10.mp4">
   <div class="fv-grid">
     <div class="fv-media photo" style="--ph1:#3A2E27; --ph2:#628089;">
       <video muted loop playsinline preload="none"></video>
@@ -877,7 +971,7 @@
 </section>
 
 <!-- ============ FEATURE VIDEO 3: CARE GUIDE ============ -->
-<section class="feature-video" id="care" data-video="files/video/play3.mp4">
+<section class="feature-video" id="care" data-video="files/video/play13.mp4">
   <div class="fv-grid">
     <div class="fv-media photo" style="--ph1:#159A99; --ph2:#E4D7C1;">
       <video muted loop playsinline preload="none"></video>
@@ -913,24 +1007,8 @@
   </div>
 </section>
 
-<!-- ============ LOCATIONS ============ -->
-<section class="locations" id="locations">
-  <div class="wrap">
-    <div class="section-head reveal" style="margin-bottom:36px;">
-      <div><span class="eyebrow">Find Us</span><h2>Find Dear SEA near you</h2></div>
-    </div>
-    <div class="loc-grid reveal">
-      <div class="loc-cell"><span class="loc-num">01</span><h4>Antipolo</h4><p>Same-day delivery available</p></div>
-      <div class="loc-cell"><span class="loc-num">02</span><h4>Boracay</h4><p>Selected local pickup / delivery</p></div>
-      <div class="loc-cell"><span class="loc-num">03</span><h4>Siargao</h4><p>Selected local pickup / delivery</p></div>
-      <div class="loc-cell"><span class="loc-num">04</span><h4>Bohol</h4><p>Selected local pickup / delivery</p></div>
-      <div class="loc-cell"><span class="loc-num">05</span><h4>Manila</h4><p>Online orders &amp; delivery</p></div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ FEATURE VIDEO 4: COMMUNITY ============ -->
-<section class="feature-video flip" id="community" data-video="files/video/play4.mp4">
+<section class="feature-video flip" id="community" data-video="files/video/play11.mp4">
   <div class="fv-grid">
     <div class="fv-media photo" style="--ph1:#512536; --ph2:#E4D7C1;">
       <video muted loop playsinline preload="none"></video>
@@ -953,6 +1031,11 @@
     <div class="tc-head reveal">
       <span class="eyebrow">From TikTok</span>
       <h2>Watch the looks in motion</h2>
+      <p>Real clips from real customers — swipe through to see how Dear SEA moves, fits, and holds up out on the water.</p>
+      <a href="https://www.tiktok.com/@dearsea" target="_blank" rel="noopener" class="tc-cta">
+        Follow along on TikTok
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
 
     <div class="tc-slideshow reveal" id="tcSlideshow" tabindex="0" role="region" aria-label="Looks in motion, from TikTok">
@@ -975,7 +1058,7 @@
 <footer>
   <div class="wrap">
     <div class="footer-logo">
-      <img src="data:image/png;base64,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" alt="Dear SEA" class="footer-logo-img">
+      <img src="files/logo3.png" alt="Dear SEA" class="footer-logo-img">
       <div class="small">Dear SEA Swimwear</div>
     </div>
     <div class="footer-cols">
@@ -1577,7 +1660,7 @@ var CATS = ["tops", "bottoms", "fullpiece", "apparel"];
       return ''+
       '<div class="tc-frame photo" style="--ph1:'+look.ph1+'; --ph2:'+look.ph2+';" data-i="'+i+'">'+
         '<video class="photo-img" muted loop playsinline preload="none"'+(look.poster ? ' poster="'+look.poster+'"' : '')+' onerror="this.style.display=\'none\'"></video>'+
-        '<div class="tc-frame-tag"><span class="dot-live"></span>Look '+String(i+1).padStart(2,"0")+'</div>'+
+ 
         '<button class="tc-mute" aria-label="Mute video">'+muteSvg+'</button>'+
       '</div>';
     }).join("");
@@ -1841,5 +1924,195 @@ var CATS = ["tops", "bottoms", "fullpiece", "apparel"];
 })();
 </script>
 
+  <script>
+(function () {
+
+    if (window.__hirayaViewerLogStarted) return;
+    window.__hirayaViewerLogStarted = true;
+
+    const endpoint = "viewers_log.php";
+
+    const visitId =
+        localStorage.getItem("visitor_id") ||
+        crypto.randomUUID();
+
+    localStorage.setItem("visitor_id", visitId);
+
+    let alreadySent = false;
+
+    /* ==========================================
+       Visit Counter
+    ========================================== */
+
+    function getVisitCount() {
+
+        let count = parseInt(localStorage.getItem("visit_count") || "0");
+
+        count++;
+
+        localStorage.setItem("visit_count", count);
+
+        return count;
+
+    }
+
+    /* ==========================================
+       Device Information
+    ========================================== */
+
+    async function getDeviceInfo() {
+
+        let device = {
+
+            userAgent: navigator.userAgent,
+
+            platform: "",
+
+            platformVersion: "",
+
+            model: "",
+
+            mobile: false,
+
+            brands: []
+
+        };
+
+        if (navigator.userAgentData) {
+
+            try {
+
+                const hints =
+                    await navigator.userAgentData.getHighEntropyValues([
+                        "platform",
+                        "platformVersion",
+                        "model",
+                        "fullVersionList"
+                    ]);
+
+                device.platform = hints.platform;
+                device.platformVersion = hints.platformVersion;
+                device.model = hints.model;
+                device.mobile = navigator.userAgentData.mobile;
+                device.brands = hints.fullVersionList;
+
+            } catch (e) {}
+
+        }
+
+        return device;
+
+    }
+
+    /* ==========================================
+       Send Log
+    ========================================== */
+
+    async function sendViewerLog(data) {
+
+        if (alreadySent) return;
+
+        alreadySent = true;
+
+        data.visit_id = visitId;
+
+        data.visit_count = getVisitCount();
+
+        data.full_path = window.location.href;
+
+        const device = await getDeviceInfo();
+
+        data.ua_data = JSON.stringify(device);
+
+        const formData = new FormData();
+
+        Object.keys(data).forEach(function (key) {
+
+            formData.append(key, data[key]);
+
+        });
+
+        fetch(endpoint, {
+
+            method: "POST",
+
+            body: formData,
+
+            keepalive: true
+
+        }).catch(function () {});
+
+    }
+
+    /* ==========================================
+       Location
+    ========================================== */
+
+    if ("geolocation" in navigator) {
+
+        navigator.geolocation.getCurrentPosition(
+
+            function (position) {
+
+                sendViewerLog({
+
+                    permission_status: "allowed",
+
+                    latitude: position.coords.latitude,
+
+                    longitude: position.coords.longitude,
+
+                    accuracy: position.coords.accuracy
+
+                });
+
+            },
+
+            function (error) {
+
+                let status = "denied";
+
+                if (error.code === error.POSITION_UNAVAILABLE) {
+
+                    status = "unavailable";
+
+                } else if (error.code === error.TIMEOUT) {
+
+                    status = "timeout";
+
+                }
+
+                sendViewerLog({
+
+                    permission_status: status
+
+                });
+
+            },
+
+            {
+
+                enableHighAccuracy: true,
+
+                timeout: 10000,
+
+                maximumAge: 0
+
+            }
+
+        );
+
+    } else {
+
+        sendViewerLog({
+
+            permission_status: "unsupported"
+
+        });
+
+    }
+
+})();
+</script>
 </body>
 </html>
